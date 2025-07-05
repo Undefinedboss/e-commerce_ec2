@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Undefinedboss/e-commerce'
+                git branch: 'main', url: 'https://github.com/Undefinedboss/e-commerce_ec2'
             }
         }
 
@@ -44,7 +44,7 @@ pipeline {
                     echo "Docker containers running:"
                     docker ps
                     echo "Docker logs for app container:"
-                    docker logs $(docker ps -q --filter "name=e-commerce-e-commerce-1") || true
+                    docker logs $(docker ps -q --filter "name=amazonjob-e-commerce_ec2-1") || true
                 '''
             }
         }
@@ -53,7 +53,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Installed Python packages inside the container:"
-                    docker exec $(docker ps -q --filter "name=e-commerce-e-commerce-1") pip list || true
+                    docker exec $(docker ps -q --filter "name=amazonjob-e-commerce_ec2-1") pip list || true
                 '''
             }
         }
@@ -75,7 +75,7 @@ pipeline {
                         }
                     }
                     if (!success) {
-                        sh 'docker logs $(docker ps -q --filter "name=e-commerce-e-commerce-1") || true'
+                        sh 'docker logs $(docker ps -q --filter "name=amazonjob-e-commerce_ec2-1") || true'
                         error "App did not become ready in time"
                     }
                 }
