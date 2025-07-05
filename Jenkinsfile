@@ -17,10 +17,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def buildResult = sh(script: 'docker compose build --no-cache', returnStatus: true)
+                    def buildResult = sh(script: 'docker-compose build --no-cache', returnStatus: true)
                     if (buildResult != 0) {
-                        sh 'docker compose logs'
-                        error "Docker compose build failed"
+                        sh 'docker-compose logs'
+                        error "Docker-compose build failed"
                     }
                 }
             }
@@ -29,10 +29,10 @@ pipeline {
         stage('Run Containers') {
             steps {
                 script {
-                    def upResult = sh(script: 'docker compose up -d', returnStatus: true)
+                    def upResult = sh(script: 'docker-compose up -d', returnStatus: true)
                     if (upResult != 0) {
-                        sh 'docker compose logs'
-                        error "Docker compose failed to start containers"
+                        sh 'docker-compose logs'
+                        error "Docker-compose failed to start containers"
                     }
                 }
             }
@@ -95,7 +95,7 @@ pipeline {
 
     post {
         always {
-            sh 'docker compose up -d'
+            sh 'docker-compose up -d || true'
         }
     }
 }
